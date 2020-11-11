@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Consumer;
+use App\Entity\Producer;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +35,7 @@ class SecurityController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $manager
     ) {
-        $user = new User();
+        $user = $request->query->get('type') === 'producer' ? new Producer() : new Consumer();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 

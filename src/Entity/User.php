@@ -8,8 +8,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"consumer"= "Consumer", "producer"= "Producer"})
  */
-class User implements UserInterface
+abstract class User implements UserInterface
 {
 
     /**
@@ -24,18 +27,30 @@ class User implements UserInterface
      * @Assert\Email
      * @Assert\NotNull
      */
-    private string $email = "";
+    private ?string $email;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotNull
+     */
+    private ?string $firstname;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\NotNull
+     */
+    private ?string $lastname;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private string $password = "";
+    private ?string $password;
 
     /**
      * @Assert\NotNull
      * @Assert\Length(min=6)
      */
-    private string $plainPassword = "";
+    private ?string $plainPassword;
 
     
     /**
@@ -61,7 +76,7 @@ class User implements UserInterface
     /**
      * Get the value of password
      */ 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -81,7 +96,7 @@ class User implements UserInterface
     /**
      * Get the value of plainPassword
      */ 
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
@@ -98,7 +113,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->email;
     }
@@ -115,5 +130,45 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->plainPassword = "";
+    }
+
+    /**
+     * Get the value of firstname
+     */ 
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set the value of firstname
+     *
+     * @return  self
+     */ 
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lastname
+     */ 
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set the value of lastname
+     *
+     * @return  self
+     */ 
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
     }
 }
