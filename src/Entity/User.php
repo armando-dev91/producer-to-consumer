@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,15 +20,21 @@ class User implements UserInterface
     private int $id;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
+     * @Assert\Email
+     * @Assert\NotNull
      */
     private string $email = "";
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      */
     private string $password = "";
 
+    /**
+     * @Assert\NotNull
+     * @Assert\Length(min=6)
+     */
     private string $plainPassword = "";
 
     
