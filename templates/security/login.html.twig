@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1>Login</h1>
+
+    {% if error %}
+        {{ error.message }}
+    {% endif %}
+
+    <form action="" method="post">
+        <div>
+            <label for="email">Email</label>
+            <input type="text" name="_username" value="{{ lastUsername }}">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="_password">
+        </div>
+        <button>Se connecter</button>
+    </form>
+
+{% endblock body %}
